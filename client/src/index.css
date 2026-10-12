@@ -1,0 +1,206 @@
+/* ========================================
+   GLOBAL RESET
+======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   HTML
+======================================== */
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* ========================================
+   BODY
+======================================== */
+
+body {
+  min-width: 320px;
+  max-width: 100%;
+
+  overflow-x: hidden;
+
+  font-family:
+    "Space Grotesk",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(57, 255, 20, 0.10),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 30%,
+      rgba(0, 168, 59, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(11, 61, 11, 0.12),
+      transparent 35%
+    ),
+    #050705;
+}
+
+/* ========================================
+   FORM ELEMENTS
+======================================== */
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ========================================
+   ROOT
+======================================== */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+
+  max-width: 100%;
+
+  overflow-x: hidden;
+}
+
+/* ========================================
+   SECTION REVEAL ANIMATION
+======================================== */
+
+.reveal-section {
+  opacity: 0;
+
+  transform: translateY(35px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.reveal-section.reveal-visible {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+/* ========================================
+   REVEAL HEADERS
+======================================== */
+
+.reveal-section.reveal-visible
+.projects-header,
+.reveal-section.reveal-visible
+.skills-header,
+.reveal-section.reveal-visible
+.contact-header {
+  animation:
+    revealHeader 0.8s ease both;
+}
+
+@keyframes revealHeader {
+  from {
+    opacity: 0;
+
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-section {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+/* ========================================
+   ANCHOR OFFSET
+======================================== */
+
+section[id] {
+  scroll-margin-top: 105px;
+}
+
+/* ========================================
+   TEXT SELECTION
+======================================== */
+
+::selection {
+  background: #39ff14;
+
+  color: #050705;
+}
+
+/* ========================================
+   KEYBOARD FOCUS
+======================================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #39ff14;
+
+  outline-offset: 3px;
+}
+
+/* ========================================
+   GLOBAL IMAGE BEHAVIOR
+======================================== */
+
+img {
+  display: block;
+
+  max-width: 100%;
+}

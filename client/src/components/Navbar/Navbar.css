@@ -1,0 +1,776 @@
+
+/* ========================================
+   NAVBAR WRAPPER
+======================================== */
+
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 20px 28px;
+}
+
+/* ========================================
+   MAIN NAVBAR
+======================================== */
+
+.navbar {
+  position: relative;
+  width: min(1400px, 100%);
+  min-height: 76px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(5, 12, 22, 0.96),
+      rgba(3, 7, 15, 0.96)
+    );
+
+  border: 1px solid rgba(0, 217, 255, 0.40);
+  border-radius: 18px;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 0 30px rgba(0, 217, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.navbar:hover {
+  border-color: rgba(0, 217, 255, 0.72);
+
+  box-shadow:
+    0 0 35px rgba(0, 217, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ========================================
+   LOGO
+======================================== */
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo-icon {
+  position: relative;
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background: transparent;
+
+  transition:
+    filter 0.3s ease;
+}
+
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+.navbar-logo:hover .logo-icon {
+  filter:
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.35))
+    drop-shadow(0 0 12px rgba(0, 217, 255, 0.25));
+}
+
+.navbar-logo:hover .logo-icon img {
+  animation: silverShimmer 0.9s ease-in-out;
+}
+
+@keyframes silverShimmer {
+  0% {
+    filter:
+      brightness(1)
+      contrast(1);
+  }
+
+  35% {
+    filter:
+      brightness(1.35)
+      contrast(1.05)
+      drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  }
+
+  60% {
+    filter:
+      brightness(1.65)
+      contrast(1.08)
+      drop-shadow(0 0 10px rgba(0, 217, 255, 0.65));
+  }
+
+  100% {
+    filter:
+      brightness(1)
+      contrast(1);
+  }
+}
+
+.logo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo-name {
+  color: #ffffff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.logo-name span {
+  background:
+    linear-gradient(
+      90deg,
+      #00d9ff,
+      #0066ff
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.logo-tagline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+
+  letter-spacing: 2px;
+
+  color: #00d9ff;
+
+  white-space: nowrap;
+}
+
+.logo-tagline::before,
+.logo-tagline::after {
+  content: "";
+
+  width: 10px;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #00d9ff
+  );
+
+  box-shadow: 0 0 5px rgba(0, 217, 255, 0.45);
+}
+
+.logo-tagline::after {
+  background: linear-gradient(
+    90deg,
+    #00d9ff,
+    transparent
+  );
+}
+
+/* ========================================
+   DESKTOP NAVIGATION
+======================================== */
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 34px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav-link {
+  position: relative;
+
+  padding: 28px 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.nav-link::after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+
+  width: 0;
+  height: 2px;
+
+  transform: translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      #00d9ff,
+      #0066ff
+    );
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 0 10px rgba(0, 217, 255, 0.65);
+
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 32px;
+}
+
+.nav-link.active {
+  color: #00d9ff;
+}
+
+/* ========================================
+   RIGHT ACTIONS
+======================================== */
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+/* ========================================
+   CONTACT BUTTON
+======================================== */
+
+.contact-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 48px;
+  padding: 0 21px;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #0066ff,
+      #00d9ff
+    );
+
+  box-shadow:
+    0 8px 25px rgba(0, 217, 255, 0.18);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 12px 32px rgba(0, 217, 255, 0.30);
+}
+
+.contact-button svg {
+  transition: transform 0.3s ease;
+}
+
+.contact-button:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* ========================================
+   RESUME BUTTON
+======================================== */
+
+.resume-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 48px;
+  padding: 0 17px;
+
+  color: rgba(255, 255, 255, 0.88);
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  border-radius: 13px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(0, 217, 255, 0.36);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.resume-button:hover {
+  color: #ffffff;
+  background: rgba(0, 217, 255, 0.07);
+  border-color: rgba(0, 217, 255, 0.78);
+  transform: translateY(-2px);
+}
+
+.resume-button svg {
+  transition: transform 0.3s ease;
+}
+
+.resume-button:hover span svg {
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   MOBILE MENU BUTTON
+======================================== */
+
+.mobile-menu-button {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid
+    rgba(0, 217, 255, 0.25);
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.mobile-menu-button:hover {
+  color: #00d9ff;
+
+  border-color: rgba(0, 217, 255, 0.55);
+
+  background: rgba(0, 217, 255, 0.06);
+}
+
+/* ========================================
+   MOBILE MENU
+======================================== */
+
+.mobile-menu {
+  display: none;
+}
+
+/* ========================================
+   MEDIUM DESKTOP
+   851px - 1050px
+======================================== */
+
+@media (max-width: 1050px) and (min-width: 851px) {
+  .navbar-links {
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  .contact-button {
+    padding: 0 16px;
+  }
+}
+
+/* ========================================
+   TABLET + LARGE MOBILE
+   601px - 850px
+======================================== */
+
+@media (max-width: 850px) {
+  .navbar-wrapper {
+    padding: 14px 16px;
+  }
+
+  .navbar {
+    min-height: 68px;
+    padding: 0 15px;
+    border-radius: 15px;
+  }
+
+  .navbar-links,
+  .resume-button,
+  .contact-button {
+    display: none;
+  }
+
+  .navbar-logo {
+    display: flex;
+  }
+
+  .logo-content {
+    display: flex;
+  }
+
+  .logo-icon {
+    width: 43px;
+    height: 43px;
+  }
+
+  .logo-name {
+    font-size: 19px;
+  }
+
+  .logo-tagline {
+    font-size: 7px;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+  }
+
+  .mobile-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 12px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-10px);
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(5, 12, 22, 0.98),
+        rgba(3, 7, 15, 0.98)
+      );
+
+    border:
+      1px solid
+      rgba(0, 217, 255, 0.38);
+
+    border-radius: 16px;
+
+    box-shadow:
+      0 15px 40px rgba(0, 0, 0, 0.45),
+      0 0 25px rgba(0, 217, 255, 0.06);
+
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .mobile-menu-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mobile-nav-link {
+    padding: 14px 15px;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    border-radius: 10px;
+
+    transition:
+      color 0.25s ease,
+      background 0.25s ease,
+      padding-left 0.25s ease;
+  }
+
+  .mobile-nav-link:hover {
+    padding-left: 20px;
+    color: #ffffff;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 217, 255, 0.12),
+        transparent
+      );
+  }
+
+  .mobile-contact-button {
+    margin-top: 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 13px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    border-radius: 10px;
+
+    background:
+      linear-gradient(
+        100deg,
+        #0066ff,
+        #00d9ff
+      );
+
+    box-shadow:
+      0 6px 18px rgba(0, 217, 255, 0.15);
+  }
+
+  .mobile-resume-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 13px;
+
+    color: rgba(255, 255, 255, 0.85);
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(0, 217, 255, 0.36);
+
+    background: rgba(255, 255, 255, 0.03);
+
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .mobile-resume-button:hover {
+    color: #ffffff;
+
+    background: rgba(0, 217, 255, 0.07);
+
+    border-color: rgba(0, 217, 255, 0.70);
+  }
+}
+
+/* ========================================
+   MEDIUM MOBILE
+   375px - 600px
+
+   LEFT:
+   Code2 + CODEPORT + tagline
+
+   RIGHT:
+   CPU + Menu
+======================================== */
+
+@media (max-width: 600px) {
+  .navbar-wrapper {
+    padding: 10px 12px;
+  }
+
+  .navbar {
+    min-height: 64px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .logo-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logo-name {
+    font-size: 18px;
+  }
+
+  .logo-tagline {
+    font-size: 6px;
+    letter-spacing: 1.6px;
+  }
+
+  .navbar-actions {
+    gap: 6px;
+  }
+
+  .mobile-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE
+   320px - 374px
+
+   LEFT:
+   HLogo + HAKKIM + tagline
+
+   RIGHT:
+   Menu ONLY
+======================================== */
+
+@media (max-width: 374px) {
+  .navbar-wrapper {
+    padding: 8px;
+  }
+
+  .navbar {
+    min-height: 62px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .logo-name {
+    font-size: 17px;
+  }
+
+  .logo-tagline {
+    font-size: 5.5px;
+    letter-spacing: 1.35px;
+  }
+
+  .mobile-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ========================================
+   DESKTOP
+   851px+
+======================================== */
+
+@media (min-width: 851px) {
+  .navbar-links {
+    display: flex;
+  }
+
+  .resume-button,
+  .contact-button {
+    display: flex;
+  }
+
+  .mobile-menu-button,
+  .mobile-menu {
+    display: none;
+  }
+
+  .logo-content,
+  .logo-tagline {
+    display: flex;
+  }
+}
