@@ -1,6 +1,4 @@
-# CODEPORT
-
-> Build • Ship • Evolve
+# SIDDIQ PORTFOLIO
 
 A premium full-stack developer portfolio website built with a futuristic red and orange visual style, modern animations, responsive layouts, and a Node.js + MongoDB backend.
 
