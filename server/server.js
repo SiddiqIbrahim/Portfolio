@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -34,21 +35,18 @@ transporter.verify((error) => {
   }
 });
 
-app.get("/", (req, res) => {
+// Home route
+app.get("/", (_req, res) => {
   res.json({
     success: true,
-    message: "Hakkim Portfolio API is running.",
+    message: "Siddiq Portfolio API is running.",
   });
 });
 
+// Contact form route
 app.post("/api/contact", async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      subject,
-      message,
-    } = req.body;
+    const { name, email, subject, message } = req.body;
 
     if (
       !name?.trim() ||
@@ -62,8 +60,7 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    const emailPattern =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email.trim())) {
       return res.status(400).json({
@@ -72,474 +69,286 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
+    if (!process.env.SMTP_USER || !process.env.CONTACT_RECEIVER) {
+      return res.status(500).json({
+        success: false,
+        message: "Email service is not configured.",
+      });
+    }
+
     const cleanName = name.trim();
     const cleanEmail = email.trim();
     const cleanSubject = subject.trim();
     const cleanMessage = message.trim();
 
+    const safeName = escapeHtml(cleanName);
+    const safeEmail = escapeHtml(cleanEmail);
+    const safeSubject = escapeHtml(cleanSubject);
+    const safeMessage = escapeHtml(cleanMessage).replace(/\n/g, "<br />");
+
     await transporter.sendMail({
-      from: `"Hakkim Portfolio" <${process.env.SMTP_USER}>`,
+      from: `"Siddiq Portfolio" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_RECEIVER,
       replyTo: cleanEmail,
-      subject: `New Portfolio Message — ${cleanSubject}`,
+      subject: `New Portfolio Message - ${cleanSubject}`,
 
       text: `
-HAKKIM PORTFOLIO
+SIDDIQ PORTFOLIO
 
 NEW MESSAGE RECEIVED
 
-Received via Portfolio Contact Form.
-
-Name:
-${cleanName}
-
-Email:
-${cleanEmail}
-
-Subject:
-${cleanSubject}
+Name: ${cleanName}
+Email: ${cleanEmail}
+Subject: ${cleanSubject}
 
 Message:
 ${cleanMessage}
 
 ----------------------------------------
-
-© 2026 Hakkim Portfolio.
+© ${new Date().getFullYear()} Siddiq Portfolio.
 All rights reserved.
       `.trim(),
 
       html: `
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-  <meta
-    http-equiv="X-UA-Compatible"
-    content="IE=edge"
-  />
-
-  <title>Hakkim Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siddiq Portfolio</title>
 </head>
 
-<body
-  style="
-    margin:0;
-    padding:0;
-    background:#f5f7f9;
-    font-family:Arial,Helvetica,sans-serif;
-    color:#18212f;
-  "
->
-  <table
-    width="100%"
-    cellpadding="0"
-    cellspacing="0"
-    border="0"
-    style="
-      width:100%;
-      margin:0;
-      padding:0;
-      background:#f5f7f9;
-    "
-  >
-    <tr>
-      <td
-        align="center"
-        style="padding:40px 15px;"
-      >
+<body style="
+  margin:0;
+  padding:0;
+  background:#eef6ff;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#18212f;
+">
 
-        <table
-          width="650"
-          cellpadding="0"
-          cellspacing="0"
-          border="0"
+  <table width="100%" cellpadding="0" cellspacing="0"
+    style="background:#eef6ff;padding:35px 12px;">
+
+    <tr>
+      <td align="center">
+
+        <table width="650" cellpadding="0" cellspacing="0"
           style="
             width:100%;
             max-width:650px;
             background:#ffffff;
-            border:1px solid #dfe4e8;
+            border:1px solid #d7e8fb;
             border-radius:16px;
             overflow:hidden;
-          "
-        >
+          ">
 
+          <!-- Electric Blue top border -->
           <tr>
-            <td
-              style="
-                height:4px;
-                background:#39ff14;
-                font-size:0;
-                line-height:0;
-              "
-            >
-              &nbsp;
-            </td>
+            <td style="
+              height:5px;
+              background:#008cff;
+              font-size:0;
+            ">&nbsp;</td>
           </tr>
 
+          <!-- Header -->
           <tr>
-            <td
-              style="
-                padding:28px 30px 24px;
-                background:#ffffff;
-                border-bottom:1px solid #e6eaee;
-              "
-            >
+            <td style="
+              padding:28px 30px;
+              border-bottom:1px solid #e3effb;
+            ">
 
-              <table
-                width="100%"
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
-              >
+              <table cellpadding="0" cellspacing="0">
                 <tr>
-
-                  <td
-                    width="58"
-                    valign="middle"
-                    style="
-                      width:58px;
-                      padding-right:14px;
-                    "
-                  >
-                    <img
-                      src="https://hakkimappas-portfolio.vercel.app/h-logo.png"
-                      alt="Hakkim Logo"
-                      width="52"
-                      height="52"
-                      style="
-                        display:block;
-                        width:52px;
-                        height:52px;
-                        object-fit:contain;
-                        border:0;
-                        outline:none;
-                        text-decoration:none;
-                      "
-                    />
+                  <td>
+                    <div style="
+                      width:52px;
+                      height:52px;
+                      border-radius:14px;
+                      background:#007bff;
+                      color:#ffffff;
+                      text-align:center;
+                      font-size:30px;
+                      line-height:52px;
+                      font-weight:900;
+                    ">S</div>
                   </td>
 
-                  <td valign="middle">
-
-                    <div
-                      style="
-                        color:#111827;
-                        font-size:22px;
-                        line-height:26px;
-                        font-weight:900;
-                        letter-spacing:1px;
-                      "
-                    >
-                      HAKKIM
-                    </div>
-
-                    <div
-                      style="
-                        margin-top:5px;
-                        color:#229b32;
-                        font-size:9px;
-                        line-height:12px;
-                        font-weight:700;
-                        letter-spacing:3px;
-                      "
-                    >
-                      ─ PORTFOLIO ─
-                    </div>
-
-                  </td>
-
-                </tr>
-              </table>
-
-            </td>
-          </tr>
-
-          <tr>
-            <td
-              style="
-                padding:32px 30px 30px;
-                background:#ffffff;
-              "
-            >
-
-              <table
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
-              >
-                <tr>
-                  <td
-                    style="
-                      padding:7px 11px;
-                      background:#f0f9ef;
-                      border:1px solid #cfe9cc;
-                      border-radius:20px;
-                      color:#258b30;
-                      font-size:10px;
-                      line-height:12px;
-                      font-weight:700;
+                  <td style="padding-left:14px;">
+                    <div style="
+                      color:#111827;
+                      font-size:22px;
+                      font-weight:900;
                       letter-spacing:1px;
-                    "
-                  >
-                    ● NEW MESSAGE
+                    ">SIDDIQ</div>
+
+                    <div style="
+                      margin-top:5px;
+                      color:#007bff;
+                      font-size:9px;
+                      font-weight:700;
+                      letter-spacing:3px;
+                    ">— PORTFOLIO —</div>
                   </td>
                 </tr>
               </table>
 
-              <h1
-                style="
-                  margin:20px 0 8px;
-                  padding:0;
-                  color:#172033;
-                  font-size:28px;
-                  line-height:34px;
-                  font-weight:800;
-                  letter-spacing:-0.5px;
-                "
-              >
-                New Contact Message
-              </h1>
+            </td>
+          </tr>
 
-              <p
-                style="
-                  margin:0 0 28px;
-                  padding:0;
-                  color:#7b8491;
-                  font-size:14px;
-                  line-height:22px;
-                "
-              >
-                Someone has contacted you through
-                your portfolio website.
+          <!-- Email content -->
+          <tr>
+            <td style="padding:32px 30px;">
+
+              <span style="
+                display:inline-block;
+                padding:8px 12px;
+                background:#eaf5ff;
+                border:1px solid #c9e4ff;
+                border-radius:20px;
+                color:#006bd6;
+                font-size:10px;
+                font-weight:700;
+                letter-spacing:1px;
+              ">● NEW MESSAGE</span>
+
+              <h1 style="
+                margin:22px 0 8px;
+                color:#172033;
+                font-size:28px;
+              ">New Contact Message</h1>
+
+              <p style="
+                margin:0 0 25px;
+                color:#64748b;
+                font-size:14px;
+                line-height:22px;
+              ">
+                Someone has contacted you through your portfolio website.
               </p>
 
-              <table
-                width="100%"
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
+              <!-- Contact details -->
+              <table width="100%" cellpadding="0" cellspacing="0"
                 style="
-                  width:100%;
-                  background:#f8fafb;
-                  border:1px solid #dfe4e9;
+                  background:#f7fbff;
+                  border:1px solid #dbeafe;
                   border-radius:12px;
-                "
-              >
+                ">
 
                 <tr>
-                  <td
-                    style="
-                      padding:17px 18px;
-                      border-bottom:1px solid #e5e9ed;
-                    "
-                  >
-                    <div
-                      style="
-                        color:#697586;
-                        font-size:9px;
-                        line-height:12px;
-                        font-weight:700;
-                        letter-spacing:1.5px;
-                        text-transform:uppercase;
-                      "
-                    >
-                      Name
-                    </div>
+                  <td style="
+                    padding:17px 18px;
+                    border-bottom:1px solid #e1edf9;
+                  ">
+                    <div style="
+                      color:#64748b;
+                      font-size:10px;
+                      font-weight:700;
+                      letter-spacing:1.5px;
+                    ">NAME</div>
 
-                    <div
-                      style="
-                        margin-top:6px;
-                        color:#172033;
-                        font-size:15px;
-                        line-height:20px;
-                        font-weight:600;
-                      "
-                    >
-                      ${escapeHtml(cleanName)}
-                    </div>
+                    <div style="
+                      margin-top:7px;
+                      color:#172033;
+                      font-size:15px;
+                      font-weight:600;
+                    ">${safeName}</div>
                   </td>
                 </tr>
 
                 <tr>
-                  <td
-                    style="
-                      padding:17px 18px;
-                      border-bottom:1px solid #e5e9ed;
-                    "
-                  >
-                    <div
-                      style="
-                        color:#697586;
-                        font-size:9px;
-                        line-height:12px;
-                        font-weight:700;
-                        letter-spacing:1.5px;
-                        text-transform:uppercase;
-                      "
-                    >
-                      Email Address
-                    </div>
+                  <td style="
+                    padding:17px 18px;
+                    border-bottom:1px solid #e1edf9;
+                  ">
+                    <div style="
+                      color:#64748b;
+                      font-size:10px;
+                      font-weight:700;
+                      letter-spacing:1.5px;
+                    ">EMAIL ADDRESS</div>
 
-                    <div
-                      style="
-                        margin-top:6px;
-                        font-size:15px;
-                        line-height:20px;
-                      "
-                    >
-                      <a
-                        href="mailto:${escapeHtml(cleanEmail)}"
-                        style="
-                          color:#1685ad;
-                          text-decoration:none;
-                        "
-                      >
-                        ${escapeHtml(cleanEmail)}
+                    <div style="margin-top:7px;font-size:15px;">
+                      <a href="mailto:${safeEmail}"
+                        style="color:#007bff;text-decoration:none;">
+                        ${safeEmail}
                       </a>
                     </div>
                   </td>
                 </tr>
 
                 <tr>
-                  <td
-                    style="
-                      padding:17px 18px;
-                    "
-                  >
-                    <div
-                      style="
-                        color:#697586;
-                        font-size:9px;
-                        line-height:12px;
-                        font-weight:700;
-                        letter-spacing:1.5px;
-                        text-transform:uppercase;
-                      "
-                    >
-                      Subject
-                    </div>
+                  <td style="padding:17px 18px;">
+                    <div style="
+                      color:#64748b;
+                      font-size:10px;
+                      font-weight:700;
+                      letter-spacing:1.5px;
+                    ">SUBJECT</div>
 
-                    <div
-                      style="
-                        margin-top:6px;
-                        color:#172033;
-                        font-size:15px;
-                        line-height:20px;
-                        font-weight:600;
-                      "
-                    >
-                      ${escapeHtml(cleanSubject)}
-                    </div>
+                    <div style="
+                      margin-top:7px;
+                      color:#172033;
+                      font-size:15px;
+                      font-weight:600;
+                    ">${safeSubject}</div>
                   </td>
                 </tr>
 
               </table>
 
-              <table
-                width="100%"
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
-                style="margin-top:24px;"
-              >
-                <tr>
-                  <td>
+              <!-- Message section -->
+              <h3 style="
+                margin:25px 0 8px;
+                color:#64748b;
+                font-size:11px;
+                letter-spacing:2px;
+              ">MESSAGE</h3>
 
-                    <div
-                      style="
-                        color:#697586;
-                        font-size:10px;
-                        line-height:14px;
-                        font-weight:800;
-                        letter-spacing:1.8px;
-                        text-transform:uppercase;
-                      "
-                    >
-                      Message
-                    </div>
+              <div style="
+                width:38px;
+                height:3px;
+                background:#008cff;
+                margin-bottom:15px;
+              "></div>
 
-                    <div
-                      style="
-                        width:36px;
-                        height:2px;
-                        margin-top:7px;
-                        background:#39ff14;
-                      "
-                    >
-                      &nbsp;
-                    </div>
-
-                  </td>
-                </tr>
-              </table>
-
-              <table
-                width="100%"
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
+              <table width="100%" cellpadding="0" cellspacing="0"
                 style="
-                  width:100%;
-                  margin-top:14px;
                   background:#ffffff;
-                  border:1px solid #dfe4e9;
-                  border-left:3px solid #39ff14;
+                  border:1px solid #dbeafe;
+                  border-left:4px solid #008cff;
                   border-radius:10px;
-                "
-              >
+                ">
                 <tr>
-                  <td
-                    style="
-                      padding:20px;
-                      color:#303b4b;
-                      font-size:14px;
-                      line-height:24px;
-                      word-break:break-word;
-                    "
-                  >
-                    ${escapeHtml(cleanMessage).replace(
-                      /\n/g,
-                      "<br />"
-                    )}
-                  </td>
+                  <td style="
+                    padding:20px;
+                    color:#303b4b;
+                    font-size:14px;
+                    line-height:24px;
+                    word-break:break-word;
+                  ">${safeMessage}</td>
                 </tr>
               </table>
 
-              <table
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
-                style="margin-top:26px;"
-              >
+              <!-- Reply button -->
+              <table cellpadding="0" cellspacing="0"
+                style="margin-top:25px;">
                 <tr>
-                  <td
-                    style="
-                      border-radius:8px;
-                      background:#39ff14;
-                    "
-                  >
-                    <a
-                      href="mailto:${escapeHtml(cleanEmail)}"
+                  <td style="
+                    background:#007bff;
+                    border-radius:8px;
+                  ">
+                    <a href="mailto:${safeEmail}"
                       style="
                         display:inline-block;
-                        padding:12px 20px;
-                        color:#062006;
+                        padding:13px 20px;
+                        color:#ffffff;
                         font-size:12px;
-                        line-height:16px;
                         font-weight:800;
-                        letter-spacing:.5px;
                         text-decoration:none;
-                      "
-                    >
-                      REPLY TO
-                      ${escapeHtml(cleanName.toUpperCase())}
-                      →
+                        letter-spacing:.5px;
+                      ">
+                      REPLY TO ${safeName.toUpperCase()} →
                     </a>
                   </td>
                 </tr>
@@ -548,107 +357,57 @@ All rights reserved.
             </td>
           </tr>
 
+          <!-- Footer -->
           <tr>
-            <td
-              style="
-                padding:0 30px;
-                background:#ffffff;
-              "
-            >
-              <table
-                width="100%"
-                cellpadding="0"
-                cellspacing="0"
-                border="0"
-              >
-                <tr>
-                  <td
-                    style="
-                      height:1px;
-                      background:#e3e7eb;
-                      font-size:0;
-                      line-height:0;
-                    "
-                  >
-                    &nbsp;
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+            <td align="center" style="
+              padding:27px 20px;
+              background:#f7fbff;
+              border-top:1px solid #e3edf8;
+            ">
 
-          <tr>
-            <td
-              align="center"
-              style="
-                padding:25px 30px 28px;
-                background:#f8fafb;
-              "
-            >
+              <div style="
+                color:#273142;
+                font-size:14px;
+                font-weight:800;
+                letter-spacing:2px;
+              ">SIDDIQ</div>
 
-              <div
-                style="
-                  color:#273142;
-                  font-size:13px;
-                  line-height:18px;
-                  font-weight:800;
-                  letter-spacing:2px;
-                "
-              >
-                HAKKIM APPAS MANTHIRI M
-              </div>
+              <div style="
+                margin-top:8px;
+                color:#007bff;
+                font-size:9px;
+                font-weight:700;
+                letter-spacing:2px;
+              ">FULL STACK DEVELOPER</div>
 
-              <div
-                style="
-                  margin-top:7px;
-                  color:#229b32;
-                  font-size:8px;
-                  line-height:12px;
-                  font-weight:700;
-                  letter-spacing:2px;
-                "
-              >
-                FULL STACK DEVELOPER
-              </div>
-
-              <div
-                style="
-                  margin-top:18px;
-                  color:#687385;
-                  font-size:10px;
-                  line-height:16px;
-                "
-              >
-                © 2026 Hakkim Portfolio.
+              <div style="
+                margin-top:18px;
+                color:#687385;
+                font-size:10px;
+                line-height:16px;
+              ">
+                © ${new Date().getFullYear()} Siddiq Portfolio.
                 All rights reserved.
               </div>
 
-              <div
-                style="
-                  margin-top:5px;
-                  color:#9aa3af;
-                  font-size:9px;
-                  line-height:14px;
-                "
-              >
-                This message was sent through
-                the Hakkim Portfolio contact form.
+              <div style="
+                margin-top:6px;
+                color:#94a3b8;
+                font-size:10px;
+              ">
+                Sent through Siddiq's portfolio contact form.
               </div>
 
             </td>
           </tr>
 
+          <!-- Bottom Electric Blue border -->
           <tr>
-            <td
-              style="
-                height:2px;
-                background:#39ff14;
-                font-size:0;
-                line-height:0;
-              "
-            >
-              &nbsp;
-            </td>
+            <td style="
+              height:4px;
+              background:#008cff;
+              font-size:0;
+            ">&nbsp;</td>
           </tr>
 
         </table>
@@ -664,20 +423,20 @@ All rights reserved.
 
     return res.status(200).json({
       success: true,
-      message:
-        "Message sent successfully! I'll get back to you soon.",
+      message: "Message sent successfully! I'll get back to you soon.",
     });
+
   } catch (error) {
     console.error("Contact email error:", error);
 
     return res.status(500).json({
       success: false,
-      message:
-        "Unable to send your message. Please try again later.",
+      message: "Unable to send your message. Please try again later.",
     });
   }
 });
 
+// Escape HTML to protect email template
 function escapeHtml(value = "") {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -687,8 +446,7 @@ function escapeHtml(value = "") {
     .replace(/'/g, "&#039;");
 }
 
+// Start server
 app.listen(PORT, () => {
-  console.log(
-    `Server running on http://localhost:${PORT}`
-  );
+  console.log(`Siddiq Portfolio server running on port ${PORT}`);
 });
